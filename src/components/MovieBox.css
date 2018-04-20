@@ -1,0 +1,50 @@
+
+.box {
+    border: 1px solid #151828;
+    margin: var(--gutter) 0;
+    border-radius: 3px;
+    padding: var(--small-gutter) var(--gutter);
+    background-color: #090e21;
+}
+
+.Movie {
+    cursor: pointer;
+    transition: transform .5s;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5vh;
+}
+
+.Movie .content {
+    flex: 1;
+}
+
+.Movie .title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #fdffff;
+    font-family: 'open_sansbold',sans-serif;
+    font-size: 16px;
+    text-align: left;
+}
+
+.Movie .sub-text{
+    color: white;
+    font-size: 14px;
+    font-family: open_sanslight, sans-serif;
+    text-align: left;
+}
+
+.cover{
+    background-size: cover;
+    height: 30vh;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+}
+
+.favorities{
+    color: #fdffff;
+    margin-right: 5px;
+}
