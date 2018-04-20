@@ -1,0 +1,22 @@
+.App-footer{
+    background: #ffffff;
+    width: 100%;
+    flex:0.1;
+    align-self: end;
+}
+
+.menu .menu-item{
+    cursor: pointer;
+    color: #b9bcc2;
+    padding: 5px;
+}
+
+.menu .menu-item p{
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.menu .menu-item.active{
+    background: rgba(185, 188, 194, 0.51);
+    color: #3276fe;
+}

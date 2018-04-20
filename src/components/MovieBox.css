@@ -48,3 +48,41 @@
     color: #fdffff;
     margin-right: 5px;
 }
+
+.Btn-read-more{
+    padding: 8px 5px;
+    border:1px solid white;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .Btn-read-more p{
+    color: #fdffff;
+    font-family: 'open_sanssemibold',sans-serif;
+    margin: 0;
+  }
+
+.Btn-add-favorities{
+    padding: 8px 5px;
+    border:none;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.Btn-add-favorities p{
+    color: #fdffff;
+    font-family: 'open_sanssemibold',sans-serif;
+    margin: 0;
+  }

@@ -1,6 +1,6 @@
 import request from "../request";
 import {POST,DELETE,GET} from "../verbs";
-import {users, base, dataBank} from "../data";
+import {movies} from "../data";
 
 
 export  const registerAccount = params =>{
@@ -8,13 +8,11 @@ export  const registerAccount = params =>{
 }
 
 
-export  const apiGetUserData = params =>{
-
-  return request(GET(`${base}api/front/v1/user/current`));
-
+export const getMovies = params => {
+  return request(GET(movies));
 }
 
-export  const apiUploadData = params =>{
+/* export  const apiUploadData = params =>{
   return request(POST(`http://api.alquira.com/api/front/v1/user/update`,params));
 }
 
@@ -32,5 +30,5 @@ export  const apiCreateBankData = params =>{
 
 export const apiUpdateBankData = params =>{
   return request(POST(`${dataBank}/update`,params))
-}
+} */
 

@@ -1,0 +1,117 @@
+div.custom_bg {
+  background-image: radial-gradient(circle at 20% 50%, rgba(12.55%, 24.71%, 34.51%, 0.98) 0%, rgba(12.55%, 24.71%, 34.51%, 0.88) 100%);
+}
+
+section.inner_content section.header div.title {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.Detail-title{
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.Detail-release-date{
+  opacity: 0.6;
+  font-size: 1.7em;
+  font-weight: 400;
+  margin-left: 5px;
+}
+
+.Detail-subtitle{
+  font-family: 'open_sanssemibold',sans-serif;
+  line-height: 1.3em;
+  color: white;
+  font-size: 1.3em;
+  margin-bottom: 8px;
+  text-align: left;
+}
+ul.Detail-actions {
+  margin-bottom: 30px;
+  width: 100%;
+  height: 68px;
+  display: flex;
+  list-style-type: none;
+  line-height: 1.4em;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+ul.Detail-actions li{
+  margin-left: 15px;
+}
+
+.Detail-btn-play{
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.Detail-text-content{
+  font-family: 'open_sanslight',sans-serif;
+  font-size: 1rem;
+  text-align: justify;
+  color: #fdffff;
+}
+
+ol.people.no_image li {
+  min-width: 33%;
+  width: auto;
+  text-align: left;
+  margin-bottom: 14px;
+  margin-right: 0;
+  box-sizing: border-box;
+  padding-right: 20px;
+  color: white;
+}
+
+ol.people {
+  list-style-type: none;
+  list-style-position: inside;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+ol.people li p {
+  font-size: 1em;
+  line-height: 1.4em;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+ol.people li p.character {
+  font-size: 0.9em;
+  font-family: 'open_sanslight',sans-serif;
+}
+
+.Detail-card-acting-role{
+  font-family: 'open_sansbold', sans-serif;
+  color: #000;
+}
+
+.Detail-card-acting-name{
+  font-family: 'open_sansregular', sans-serif;
+  color: #333333;
+}
+
+.Detail-card-cast{
+  -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.75);
+  margin-bottom: 3vh;
+}
+
+.Detail-card-cast .img{
+  background-position: center center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  width:100%;
+  height:320px;
+}

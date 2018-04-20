@@ -4,8 +4,9 @@
 # * 'gtrp' and 'gtr' create a GET request with or without query parameters;
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
-@key=83307dc7b657d363170bace39e8679e3
 ###
-GET https://api.themoviedb.org/movie/now_playing?api_key={{key}}&page=1
+@key = 83307dc7b657d363170bace39e8679e3
+###
+GET https://api.themoviedb.org/3/movie/now_playing?page=1&language=en-US&api_key={{key}}
 
 ###

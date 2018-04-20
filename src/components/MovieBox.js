@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import './MovieBox.css'
 import PropTypes from 'prop-types';
 
-class MyComponent extends Component {
+class MyComponent extends PureComponent {
   constructor(props) {
     super(props);
   }
@@ -16,10 +16,6 @@ class MyComponent extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
 
   }
 
@@ -60,7 +56,7 @@ class MyComponent extends Component {
                     </button>
                   </div>
                   <div className="col">
-                    <button className='Btn-read-more'>
+                    <button className='Btn-add-favorities'>
                       <i className='fa fa-1x fa-heart favorities'></i>
                       <p>
                         Add to Favorities
