@@ -8,40 +8,127 @@ import moduleMovie from "./../models/movies";
 import { Pagination, DatePicker, Select } from "antd";
 const Option = Select.Option;
 class MoviesRoute extends PureComponent {
+  state = {
+    mode: 'year',
+    date: null,
+    open: false,
+    filterData: {
+      page: 1,
+      date: null,
+      genre: null,
+    }
+  }
   componentDidMount() {
-    this.props.moviesModule.requestMovies();
+
+    this.props.moviesModule.requestMovies(this.state.filterData);
+    this.props.moviesModule.fetchMoviesGenres();
+
   }
 
-  handleSelect = (value) => {
-    
+  handleSelect = value => {
+    console.log(value);
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        filterData: {
+          ...prevState.filterData,
+          genre:value
+        }
+      }
+    },()=>this.props.moviesModule.requestMovies(this.state.filterData))
+
+  };
+
+  handleChangePage = (page) => {
+    console.log(page)
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        filterData: {
+          ...prevState.filterData,
+          page:page 
+        }
+      }
+    },()=>this.props.moviesModule.requestMovies(this.state.filterData))
+
+    this.props.moviesModule.requestMovies(this.state.filterData)
+
   }
-  handleChange(date,dateString) {
-    console.log(date,dateString);
+
+  handleChange(date, dateString) {
+    console.log(date, dateString);
+  }
+
+  handleOpenChange = (open) => {
+    console.log(open)
+    if (open) {
+      this.setState({ mode: 'year' });
+
+      this.setState({
+        open:true
+      });
+    }
+  }
+
+  handlePanelChange = (value, mode) => {
+    console.log(value.format('YYYY'), mode);
+    this.setState({
+      mode: 'year',
+      date: value,
+      open:false
+    });
+
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        filterData: {
+          ...prevState.filterData,
+          date:value.format('YYYY')
+        }
+      }
+    },()=>this.props.moviesModule.requestMovies(this.state.filterData))
+
+
+
   }
 
   render() {
+
     const {
-      moviesModule: { movies }
+      moviesModule: { movies },
+      moviesModule: { moviesGenres }
     } = this.props;
+    
     return (
       <MainLayout>
         <div className="container">
           <div className="row">
-            <div className="col-xs-6">
+            <div className="col-xs-5">
+              <p style={{marginBottom:'0'}}>Pick a year</p>  
               <DatePicker
                 onChange={this.handleChange}
+                ref={(node)=>this.datepicker=node}
                 format="YYYY"
-                mode='year'
+                value={this.state.date}
+                open={this.state.open}
+                mode={this.state.mode}
+                onOpenChange={this.handleOpenChange}
+                onPanelChange={this.handlePanelChange}
               />
             </div>
-            <div className="col-xs-6">
-              <Select>
-                
-              </Select>
+            <div className="col-xs-5">
+              <p style={{marginBottom:0}}>Select a genre</p>  
+              <Select size='large' style={{ display: 'block' }} onChange={this.handleSelect}>{moviesGenres.genres.map((item, index) => <Option key={item.id}>{item.name}</Option>)}</Select>
             </div>
             <div className="col-xs-12">
-              <Pagination />
+              <button type='button' className=''>
+                <p>Filtrar</p>
+              </button>
             </div>
+            <div className="col-xs-12" style={{marginTop:'20px'}}>
+              <Pagination total={movies.total_results} current={this.state.filterData.page} pageSize={20}  onChange={this.handleChangePage}/>
+            </div>
+            <p>&nbsp;</p>
           </div>
           <div className="row">
             {movies.results.map((item, index) => {

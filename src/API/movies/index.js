@@ -6,7 +6,8 @@ import {apiKey} from "../data";
 
 
 export const getMovies = params => {
-  return request(GET(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US&page=1`));
+
+  return request(GET(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=${params.page}`));
 }
 
 export const getSeries = params => {
@@ -31,24 +32,10 @@ export const getMovieDetailVideos = params =>{
   return request(GET(`https://api.themoviedb.org/3/movie/${params}/videos?api_key=${apiKey}&language=en-US`))
 }
 
-
-/* export  const apiUploadData = params =>{
-  return request(POST(`http://api.alquira.com/api/front/v1/user/update`,params));
+export const fetchGenersMovie = params =>{
+  return request(GET(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=en-US`))
 }
 
-export  const apiUploadAvatar = params =>{
-  return request(POST(`http://api.alquira.com/api/front/v1/user/update`,params));
+export const fetchGenersTvShow = params =>{
+  return request(GET(`https://api.themoviedb.org/3/genre/tv/list?api_key=${apiKey}&language=en-US`))
 }
-
-export  const apiGetDataBank = params =>{
-  return request(GET(dataBank));
-}
-
-export  const apiCreateBankData = params =>{
-  return request(POST(`${dataBank}/create`,params));
-}
-
-export const apiUpdateBankData = params =>{
-  return request(POST(`${dataBank}/update`,params))
-} */
-

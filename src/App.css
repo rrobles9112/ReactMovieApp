@@ -20,6 +20,8 @@
 .App-title {
   font-size: 1.5em;
     text-align: left;
+  color: white;
+  padding-left: 2rem;
 }
 
 .App-intro {
@@ -37,10 +39,12 @@
 .color-white{
   color: white;
 }
+
 a{
   text-decoration: none;
 }
 
+.btn_filter
 
 select{
   height: 40px;
