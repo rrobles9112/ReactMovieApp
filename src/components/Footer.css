@@ -3,6 +3,8 @@
     width: 100%;
     flex:0.1;
     align-self: end;
+    position: fixed;
+    bottom: 0;
 }
 
 .menu .menu-item{

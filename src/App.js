@@ -20,10 +20,10 @@ class App extends Component {
         <Router history={browserHistory}>
           <Switch>
             <Route exact path='/' component={bundles.movies}/>
-            <Route exact path='/movies/id/:id' component={bundles.details}/>
+            <Route exact path='/movie/id/:id' component={bundles.details}/>
             <Route exact path='/series' component={bundles.series}/>
             <Route exact path='/favorites' component={bundles.favorites}/>
-            <Route exact path='/series/id/:id' component={bundles.details}/>
+            <Route exact path='/serie/id/:id' component={bundles.details}/>
           </Switch>
         </Router>
       </Provider>

@@ -1,11 +1,15 @@
 import React, {PureComponent} from 'react';
 import './MovieBox.css'
 import PropTypes from 'prop-types';
+import {connectStore} from 'redux-box'
+import mediaModule from './../models/movies'
 
-class MyComponent extends PureComponent {
+class MovieBox extends PureComponent {
   constructor(props) {
     super(props);
   }
+
+
 
   componentWillMount() {
 
@@ -38,12 +42,12 @@ class MyComponent extends PureComponent {
           <div className="content">
             <div className="row">
               <div className="col-xs-12 col-sm-4 no-padding">
-                <div className="cover" style={{backgroundImage:`url('http://via.placeholder.com/640x480')`}}></div>
+                <div className="cover" style={{backgroundImage:`url('https://image.tmdb.org/t/p/w370_and_h556_bestv2${this.props.data.poster_path}')`}}></div>
               </div>
               <div className="col-xs-12 col-sm-8 p-4">
-                <div className="title">Rampage</div>
+                <div className="title">{this.props.isTvShow || this.props.data.type === 'serie' ? this.props.data.original_name  : this.props.data.original_title}</div>
                 <div className="sub-text">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt est, itaque maiores quisquam temporibus veritatis! Autem dolore laudantium molestiae reiciendis reprehenderit, temporibus. Autem error excepturi ipsa magnam provident, velit.</p>
+                  <p>{this.props.data.overview.substring(0,240)} ...</p>
                 </div>
 
                 <hr/>
@@ -55,14 +59,7 @@ class MyComponent extends PureComponent {
                       </p>
                     </button>
                   </div>
-                  <div className="col">
-                    <button className='Btn-add-favorities'>
-                      <i className='fa fa-1x fa-heart favorities'></i>
-                      <p>
-                        Add to Favorities
-                      </p>
-                    </button>
-                  </div>
+
                 </div>
 
 
@@ -76,6 +73,8 @@ class MyComponent extends PureComponent {
   }
 }
 
-MyComponent.propTypes = {};
+MovieBox.propTypes = {};
 
-export default MyComponent;
+export default connectStore({
+  mediaModule:mediaModule
+})(MovieBox);

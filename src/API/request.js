@@ -3,16 +3,16 @@ import { base as baseURL } from './data';
 
 const getInstanceData = () => {
 
-  const token = localStorage.getItem('access_token');
+  
   const headers = {
-    Authorization: `Bearer ${token || ''}`,
+ 
   };
   return { headers, baseURL };
 
 };
 
 function checkStatus(response) {
-  console.log('checkStatus ->', response); // eslint-disable-line
+
   if (response.status >= 200 && response.status < 300) {
     return response;
   }

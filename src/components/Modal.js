@@ -47,25 +47,24 @@ class SimpleModal extends Component {
 
   render () {
     const {
-      onCloseRequest,
       children,
-      sheet: { classes },
+      onCloseRequest
     } = this.props;
 
     return (
       <div className='Modal_modalOverlay'>
         <div
-          className={classes.modal}
+          className='Modal'
           ref={node => (this.modal = node)}
         >
-          <div className={classes.modalContent}>
+          <div className='Modal-content'>
             {children}
           </div>
         </div>
 
         <button
           type="button"
-          className={classes.closeButton}
+          className='Modal_closeButton'
           onClick={onCloseRequest}
         />
       </div>

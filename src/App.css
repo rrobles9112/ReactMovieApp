@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 .App {
   text-align: center;
     display: flex;
@@ -35,4 +37,14 @@
 .color-white{
   color: white;
 }
+a{
+  text-decoration: none;
+}
 
+
+select{
+  height: 40px;
+  border:1px solid blueviolet;
+  border-radius: 10px;
+  outline: 0;
+}

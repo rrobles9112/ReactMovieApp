@@ -3,8 +3,69 @@ import PropTypes from 'prop-types';
 import MainLayout from './MainLayout'
 import './DetailsRoutes.css'
 import MovieBox from '../components/MovieBox';
+import {connectStore} from 'redux-box'
+import  moviesModule from './../models/movies'
+import SimpleModalLauncher from './../components/ModalLauncher'
+import YouTube from 'react-youtube'
+
+
 class DetailsRoute extends Component {
+
+  state = {
+    showModal: false,
+    typeMedia:''
+  };
+
+  addFavorites=(e)=>{
+
+   let media={...this.props.mediaModule.detail};
+   media.type=this.state.typeMedia
+   media.favorite=true
+    console.log(media);
+   this.props.mediaModule.setMediaFavorite(media)
+
+  }
+
+
+
+  handleToggleModal() {
+    this.setState({ showModal: !this.state.showModal });
+  }
+  componentDidMount(){
+    console.log(this.props);
+    if(this.props.match.path === '/movie/id/:id'){
+      console.log('load movie');
+      this.setState({
+        typeMedia:'movie'
+      })
+      this.props.mediaModule.requestMovieDetail(this.props.match.params.id)
+    }else{
+      console.log('load serie');
+      this.setState({
+        typeMedia:'serie'
+      })
+      this.props.mediaModule.requestSerieDetail(this.props.match.params.id)
+    }
+
+  }
+
+  _onReady(event) {
+    // access to player in all event handlers via event.target
+    event.target.pauseVideo();
+  }
+
   render() {
+    const {mediaModule:{detail},mediaModule:{favorites}} = this.props
+    console.log(detail.videos)
+    const opts = {
+      height: '390',
+      width: '640',
+      playerVars: { // https://developers.google.com/youtube/player_parameters
+        autoplay: 1
+      }
+    };
+    let isFavorite = favorites.find(item => item.id===detail.id)
+    console.log('isFavorite',isFavorite)
     return (
       <MainLayout>
         <div className='container'>
@@ -20,9 +81,9 @@ class DetailsRoute extends Component {
 
 
                         <img className="poster"
-                             src="https://image.tmdb.org/t/p/w300_and_h450_bestv2/49qD372jeHUTmdNMGJkjCFZdv9y.jpg"
-                             srcSet="https://image.tmdb.org/t/p/w300_and_h450_bestv2/49qD372jeHUTmdNMGJkjCFZdv9y.jpg 1x, https://image.tmdb.org/t/p/w600_and_h900_bestv2/49qD372jeHUTmdNMGJkjCFZdv9y.jpg 2x"
-                             alt="Once Upon a Time"/>
+                             src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${detail.poster_path}`}
+                             srcSet={`https://image.tmdb.org/t/p/w300_and_h450_bestv2/${detail.poster_path} 1x, https://image.tmdb.org/t/p/w600_and_h900_bestv2/${detail.poster_path} 2x`}
+                             alt={`Once upon a time`}/>
                       </div>
 
 
@@ -34,7 +95,7 @@ class DetailsRoute extends Component {
                         <div className="Detail-title" dir="auto">
 
 
-                          <h2 className="16">Once Upon a Time</h2>
+                          <h2 className="16">{this.state.typeMedia==='serie'?detail.original_name:detail.original_title}</h2>
                           <span className="Detail-release-date">(2011)</span>
 
                         </div>
@@ -45,15 +106,52 @@ class DetailsRoute extends Component {
                             <div className="text color-white">User<br/>Score</div>
                           </li>
 
-
-
+                          { !isFavorite ?
+                            <li>
+                              <button className='Btn-add-favorities' onClick={this.addFavorites}>
+                                <i className='fa fa-1x fa-heart favorities'></i>
+                                <p>
+                                  Add to Favorities
+                                </p>
+                              </button>
+                            </li>
+                          :
+                            null
+                          }
 
 
                           <li className="video none">
-                            <p className='Detail-btn-play'>
-                              <span><i className='fa fa-2x fa-play color-white'></i></span>
-                              <span className='ml-3'>Play Trailer</span>
-                            </p>
+                            <SimpleModalLauncher buttonLabel="Open text modal" onCloseRequest={this.handleToggleModal} visible={this.state.showModal}>
+                              <div className='row'>
+                                <div className="col-xs-12">
+                                  <h2>Trailer - {detail.original_name}</h2>
+
+                                </div>
+                                <div className="col-xs-12">
+                                  <div className='row center-xs'>
+                                    <div className="col-xs-10">
+                                      {
+                                        detail.videos ?
+                                          <YouTube
+                                            videoId={detail.videos}
+                                            opts={opts}
+                                            style={{margin:'0px auto'}}
+                                          />
+                                          :
+                                          <YouTube
+                                            videoId={detail.videos}
+                                            opts={opts}
+                                            style={{margin:'0px auto'}}
+                                          />
+                                      }
+
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                              </div>
+                            </SimpleModalLauncher>
                           </li>
 
 
@@ -63,14 +161,9 @@ class DetailsRoute extends Component {
                           <h3 dir="auto" className='Detail-subtitle'>Overview</h3>
                           <div className="Detail-text-content" dir="auto">
 
-                            <p >There is a town in Maine where every story book character you've ever known is trapped
-                              between two worlds, victims of a powerful curse. Only one knows the truth and only one can
-                              break the spell.</p>
-
-                            <p >Emma Swan is a 28-year-old bail bonds collector who has been supporting herself since she
-                              was abandoned as a baby. Things change for her when her son Henry, whom she abandoned
-                              years ago, finds her and asks for her help explaining that she is from a different world
-                              where she is Snow White's missing daughter.</p>
+                            <p>
+                              {detail.overview}
+                            </p>
 
 
                           </div>
@@ -117,6 +210,7 @@ class DetailsRoute extends Component {
             </div>
           </section>
         </div>
+
       </MainLayout>
 
     );
@@ -125,4 +219,6 @@ class DetailsRoute extends Component {
 
 DetailsRoute.propTypes = {};
 
-export default DetailsRoute;
+export default connectStore({
+  mediaModule:moviesModule
+})(DetailsRoute);

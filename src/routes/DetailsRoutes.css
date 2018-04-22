@@ -46,6 +46,7 @@ ul.Detail-actions li{
 }
 
 .Detail-btn-play{
+  cursor: pointer;
   display: flex;
   align-items: center;
   color: white;

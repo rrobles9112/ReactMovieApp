@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import injectSheet from 'react-jss';
-import styles from './SimpleModalLauncherStyles';
-import SimpleModal from '../SimpleModal/SimpleModal';
+import SimpleModal from './Modal';
 
-class SimpleModalLauncher extends Component {
+
+class SimpleModalLauncher extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,12 +15,17 @@ class SimpleModalLauncher extends Component {
     this.setState({ showModal: !this.state.showModal });
   }
 
+
   render() {
-    const { buttonLabel, children, sheet: { classes } } = this.props;
+    const {children} = this.props;
     const { showModal } = this.state;
 
     return (
       <div>
+        <p className='Detail-btn-play' onClick={()=>this.handleToggleModal()}>
+          <span><i className='fa fa-2x fa-play color-white'></i></span>
+          <span className='ml-3'>Play Trailer</span>
+        </p>
         {showModal &&
         <SimpleModal onCloseRequest={() => this.handleToggleModal()}>
           {children}
@@ -32,13 +36,12 @@ class SimpleModalLauncher extends Component {
 }
 
 SimpleModalLauncher.propTypes = {
-  buttonLabel: PropTypes.string.isRequired,
+
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
-  sheet: PropTypes.object,
-  classes: PropTypes.object,
+
 };
 
 export default SimpleModalLauncher;

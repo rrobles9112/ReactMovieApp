@@ -18,7 +18,7 @@ class Header extends Component {
   }
 
   render() {
-    console.log('Header Props', this.props);
+
     return (
       <header className="App-header">
         <div className="row middle-xs">

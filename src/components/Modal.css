@@ -1,3 +1,6 @@
+body{
+    overflow: hidden;
+}
 .Modal_modalOverlay{
     display: flex;
     align-items: center;
@@ -12,6 +15,39 @@
     z-index: 9999;
     opacity: 1;
     animation: show .5s ease;
+    -moz-animation: show .5s ease;
+    -webkit-animation: show .5s ease;
+}
+@-moz-keyframes show {
+
+    0%{
+        display: none;
+        opacity: 0;
+    }
+    1%{
+        display: flex;
+        opacity: 0;
+
+    }
+    100%{
+        opacity: 1;
+    }
+
+}
+
+@-webkit-keyframes show {
+    0%{
+        display: none;
+        opacity: 0;
+    }
+    1%{
+        display: flex;
+        opacity: 0;
+
+    }
+    100%{
+        opacity: 1;
+    }
 }
 
 @keyframes show {
@@ -48,8 +84,8 @@
 .Modal_closeButton:before, .Modal_closeButton:after{
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 20px;
+    left: 5px;
     width: 2rem;
     height: 0.1rem;
     background-color: #888;
@@ -78,4 +114,8 @@
 
 .Modal_closeButton:hover:before, .Modal_closeButton:hover:after{
     background-color: #444;
+}
+
+.Modal_content{
+
 }
