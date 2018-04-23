@@ -52,7 +52,7 @@ class MoviesRoute extends PureComponent {
       }
     },()=>this.props.moviesModule.requestMovies(this.state.filterData))
 
-    this.props.moviesModule.requestMovies(this.state.filterData)
+
 
   }
 

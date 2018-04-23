@@ -17,7 +17,12 @@ export const getMovies = params => {
 }
 
 export const getSeries = params => {
-  return request(GET(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}&language=en-US&page=1`));
+  if(params.search === undefined){
+    return request(GET(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}&language=en-US&page=${params.page}`));
+  }else{
+    return request(GET(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}&language=en-US&page=${params.page}`));
+
+  }
 }
 
 export const getSeriesDetail = params =>{

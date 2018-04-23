@@ -95,7 +95,7 @@ class DetailsRoute extends Component {
                         <div className="Detail-title" dir="auto">
 
 
-                          <h2 className="16">{this.state.typeMedia==='serie'?detail.original_name:detail.original_title}</h2>
+                          <h2 className="color-white">{this.state.typeMedia==='serie'?detail.name:detail.original_title}</h2>
                           <span className="Detail-release-date">(2011)</span>
 
                         </div>

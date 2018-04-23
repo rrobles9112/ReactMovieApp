@@ -52,7 +52,7 @@ const actions = {
   requestSerieDetail: id => ({type: "REQUEST_SERIES_DETAIL", id: id}),
   requestMovieDetail: id => ({type: "REQUEST_MOVIES_DETAIL", id: id}),
   setMediaFavorite: media => ({type: "SET_MEDIA_FAVORITE", media: media}),
-  fetchTvGenres: () => ({type: "FETCH_TV_GENRES"}),
+  fetchTvGenres: () => ({type: "FETCH_SERIES_GENRES"}),
   fetchMoviesGenres: () => ({type: "FETCH_MOVIES_GENRES"}),
   setQueryFilter: query => ({type: "SET_QUERY_FILTER", query: query}),
   setDateFilter: date => ({type: "SET_DATE_FILTER", date: date}),
@@ -130,10 +130,18 @@ const sagas = createSagas({
       const response = yield call(getMovieDetail, action.id);
 
       const videos = yield call(getMovieDetailVideos, action.id);
+      console.log(videos)
       let { key } = videos.results.filter(item => item.type === "Trailer")[0];
 
       yield put({ type: "SET_MOVIE_DETAIL", detail: response });
-      yield put({ type: "SET_MOVIE_DETAIL_VIDEO", video: key });
+      if(key !== undefined){
+        yield put({ type: "SET_MOVIE_DETAIL_VIDEO", video: key });
+
+      }else{
+        yield put({ type: "SET_MOVIE_DETAIL_VIDEO", video: '' });
+
+      }
+
     } catch (error) {
       console.log(error);
     }
@@ -142,19 +150,34 @@ const sagas = createSagas({
     try {
       const response = yield call(getSeriesDetail, action.id);
       const videos = yield call(getSeriesDetailVideos, action.id);
-      let { key } = videos.results.filter(item => item.type === "Trailer")[0];
-      console.log(key);
+      //let { key } = videos.results.filter(item => item.type === "Trailer")[0];
+
 
       yield put({ type: "SET_SERIE_DETAIL", detail: response });
-
-      yield put({ type: "SET_SERIE_DETAIL_VIDEO", video: key });
+      if(videos.results.length){
+        yield put({ type: "SET_SERIE_DETAIL_VIDEO", video: videos.results[0].key });
+      }
     } catch (error) {
       console.log(error);
     }
   },
-  REQUEST_SERIES: function*(action) {
+  REQUEST_SERIES: function*({params}) {
+
     try {
-      const response = yield call(getSeries);
+      const a = yield select(getState);
+      if(a.query !== ''){
+        params.search=a.query
+      }
+      const response = yield call(getSeries,params);
+      console.log('filter state',a)
+      if(a.date!==null && a.genre!==null){
+        let responseFiltered = response.results.filter(item => item.first_air_date.substr(0,4)===a.date)
+        console.log('responseFiltered=',responseFiltered);
+        response.results=responseFiltered;
+        response.total_results=responseFiltered.length;
+        console.log('final response=',response)
+      }
+
       yield put({ type: "SET_SERIES", series: response });
     } catch (error) {
       console.log(error);
