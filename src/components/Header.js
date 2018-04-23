@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {withRouter} from 'react-router-dom'
 import "./Header.css";
+import {connectStore} from 'redux-box'
+import moviesModule from './../models/movies'
 
 class Header extends Component {
 
@@ -15,6 +17,11 @@ class Header extends Component {
     }else if(location.includes('/movies/id') || location.includes('/series/id')){
       return `Details Title`
     }
+
+  }
+
+  state={
+    query:''
   }
 
   render() {
@@ -29,8 +36,12 @@ class Header extends Component {
           </div>
           <div className="col-xs-6">
             <div id="wrap">
-              <form action="" autoComplete="on">
-                <input id="search" name="search" type="text" placeholder="Search TV/Movies Titles"/>
+              <form action="" autoComplete="on" onSubmit={(event)=>{
+                event.preventDefault()
+                console.log(this.state.query)
+                this.props.ui.setQueryFilter(this.state.query)
+              }}>
+                <input id="search" name="search" type="text" onKeyUp={(e)=>this.setState({query:e.target.value})} placeholder="Search TV/Movies Titles"/>
                 <input id="search_submit" value="Rechercher" type="submit"/>
               </form>
             </div>
@@ -41,5 +52,11 @@ class Header extends Component {
     );
   }
 }
-const HeaderWithRouter=withRouter(Header)
+
+const HeaderConnected = connectStore({
+  ui:moviesModule
+})(Header)
+
+const HeaderWithRouter=withRouter(HeaderConnected)
+
 export default HeaderWithRouter;

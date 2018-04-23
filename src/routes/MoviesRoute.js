@@ -5,13 +5,14 @@ import MainLayout from "./MainLayout";
 import { connectStore } from "redux-box";
 import { Link } from "react-router-dom";
 import moduleMovie from "./../models/movies";
-import { Pagination, DatePicker, Select } from "antd";
+import { Pagination, DatePicker, Select, Button, message } from "antd";
 const Option = Select.Option;
 class MoviesRoute extends PureComponent {
   state = {
     mode: 'year',
     date: null,
     open: false,
+    filterEnabled:false,
     filterData: {
       page: 1,
       date: null,
@@ -36,7 +37,7 @@ class MoviesRoute extends PureComponent {
         }
       }
     },()=>this.props.moviesModule.requestMovies(this.state.filterData))
-
+    this.props.moviesModule.setGenreFilter(value)
   };
 
   handleChangePage = (page) => {
@@ -55,8 +56,33 @@ class MoviesRoute extends PureComponent {
 
   }
 
-  handleChange(date, dateString) {
-    console.log(date, dateString);
+  handleChange=(date, dateString)=>{
+    console.log('datepicker',date, dateString);
+    this.setState({
+      date:date
+    })
+
+  }
+
+  filter = () =>{
+    if(this.state.filterData.date!== null && this.state.filterData.genre!==null){
+      this.setState({ filterEnabled: !this.state.filterEnabled },()=>{
+        if(this.state.filterEnabled){
+          this.props.moviesModule.setDateFilter(this.state.filterData.date)
+          this.props.moviesModule.setGenreFilter(this.state.filterData.genre)
+          this.props.moviesModule.requestMovies(this.state.filterData);
+        }else{
+          this.props.moviesModule.setDateFilter(null)
+          this.props.moviesModule.setGenreFilter(null)
+          this.props.moviesModule.requestMovies(this.state.filterData);
+        }
+      });
+
+    }else{
+      message.error('You most pick a date and genre')
+    }
+
+
   }
 
   handleOpenChange = (open) => {
@@ -71,13 +97,13 @@ class MoviesRoute extends PureComponent {
   }
 
   handlePanelChange = (value, mode) => {
-    console.log(value.format('YYYY'), mode);
+    console.log(value.format('YYYY'));
     this.setState({
       mode: 'year',
       date: value,
       open:false
     });
-
+    this.props.moviesModule.setDateFilter(value.format('YYYY'))
     this.setState(prevState => {
       return {
         ...prevState,
@@ -86,7 +112,9 @@ class MoviesRoute extends PureComponent {
           date:value.format('YYYY')
         }
       }
-    },()=>this.props.moviesModule.requestMovies(this.state.filterData))
+    },()=>{
+      console.log(this.props.moviesModule.getMoviesFiltered(this.state.filterData.date))
+    })
 
 
 
@@ -102,8 +130,8 @@ class MoviesRoute extends PureComponent {
     return (
       <MainLayout>
         <div className="container">
-          <div className="row">
-            <div className="col-xs-5">
+          <div className="row center-xs center-md center-lg center-sm">
+            <div className="col-xs-12 col-md-5">
               <p style={{marginBottom:'0'}}>Pick a year</p>  
               <DatePicker
                 onChange={this.handleChange}
@@ -116,14 +144,12 @@ class MoviesRoute extends PureComponent {
                 onPanelChange={this.handlePanelChange}
               />
             </div>
-            <div className="col-xs-5">
+            <div className="col-xs-12 col-md-5">
               <p style={{marginBottom:0}}>Select a genre</p>  
               <Select size='large' style={{ display: 'block' }} onChange={this.handleSelect}>{moviesGenres.genres.map((item, index) => <Option key={item.id}>{item.name}</Option>)}</Select>
             </div>
-            <div className="col-xs-12">
-              <button type='button' className=''>
-                <p>Filtrar</p>
-              </button>
+            <div className="col-xs-12 col-md-2">
+              <Button icon='filter' type='primary' onClick={this.filter}>{this.state.filterEnabled ? `Clear Filters`:`Filter`}</Button>
             </div>
             <div className="col-xs-12" style={{marginTop:'20px'}}>
               <Pagination total={movies.total_results} current={this.state.filterData.page} pageSize={20}  onChange={this.handleChangePage}/>

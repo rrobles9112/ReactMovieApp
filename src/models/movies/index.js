@@ -13,7 +13,10 @@ import { createSagas, createContainer } from "redux-box";
 import { createSelector } from "reselect";
 import { call, put, select } from "redux-saga/effects";
 
-let state = {
+const state = {
+  date:null,
+  genre:null,
+  query:null,
   movies: {
     results: [],
     page: 0,
@@ -44,13 +47,16 @@ let state = {
 };
 
 const actions = {
-  requestMovies: (params) => ({ type: "REQUEST_MOVIES", params:params }),
-  requestSeries: (params) => ({ type: "REQUEST_SERIES", params:params }),
-  requestSerieDetail: id => ({ type: "REQUEST_SERIES_DETAIL", id: id }),
-  requestMovieDetail: id => ({ type: "REQUEST_MOVIES_DETAIL", id: id }),
-  setMediaFavorite: media => ({ type: "SET_MEDIA_FAVORITE", media: media }),
-  fetchTvGenres: () => ({ type: "FETCH_TV_GENRES" }),
-  fetchMoviesGenres: () => ({ type: "FETCH_MOVIES_GENRES" })
+  requestMovies: (params) => ({type: "REQUEST_MOVIES", params: params}),
+  requestSeries: (params) => ({type: "REQUEST_SERIES", params: params}),
+  requestSerieDetail: id => ({type: "REQUEST_SERIES_DETAIL", id: id}),
+  requestMovieDetail: id => ({type: "REQUEST_MOVIES_DETAIL", id: id}),
+  setMediaFavorite: media => ({type: "SET_MEDIA_FAVORITE", media: media}),
+  fetchTvGenres: () => ({type: "FETCH_TV_GENRES"}),
+  fetchMoviesGenres: () => ({type: "FETCH_MOVIES_GENRES"}),
+  setQueryFilter: query => ({type: "SET_QUERY_FILTER", query: query}),
+  setDateFilter: date => ({type: "SET_DATE_FILTER", date: date}),
+  setGenreFilter: genre => ({type: "SET_GENRE_FILTER", genre: genre}),
 };
 
 const mutations = {
@@ -80,19 +86,36 @@ const mutations = {
   },
   SET_MOVIES_GENRES: (state, { genre }) => {
     state.moviesGenres=genre
+  },
+  SET_QUERY_FILTER: (state,{query})=>{
+    state.query=query
+  },
+  SET_GENRE_FILTER:(state,{genre})=>{
+    state.genre=genre;
+  },
+  SET_DATE_FILTER:(state,{date})=>{
+    state.date=date;
   }
 
 };
 
-
-
+export const getState = (state)=>state.user
 const sagas = createSagas({
   REQUEST_MOVIES: function*({params}) {
     try {
       const response = yield call(getMovies,params);
-      const a = select(getState);
-      console.log(a.movies)
+      const a = yield select(getState);
+      console.log('filter state',a)
+      if(a.date!==null && a.genre!==null){
+        let responseFiltered = response.results.filter(item => item.release_date.substr(0,4)===a.date)
+        console.log('responseFiltered=',responseFiltered);
+        response.results=responseFiltered;
+        response.total_results=responseFiltered.length;
+        console.log('final response=',response)
+      }
+
       yield put({ type: "SET_MOVIES", movies: response });
+
     } catch (error) {
       console.log(error);
     }
@@ -152,6 +175,21 @@ const sagas = createSagas({
 
 });
 
+//selectors
+
+export const getMoviesSelector = (state)=>state.movies
+export const getMoviesFiltered = createSelector( getMoviesSelector, (movies) => {
+ // return (value)=> movies.results.filter(item => item.release_date.substr(0,3)===value)
+ return (value)=> movies.results.filter((item)=>{
+   return item.release_date.substr(0,4)===value
+ })
+})
+
+// include the ones you would like to access in your components here
+const selectors = {
+  getMoviesFiltered
+};
+
 
 
 export default (module = {
@@ -159,7 +197,8 @@ export default (module = {
   state,
   actions,
   mutations,
-  sagas
+  sagas,
+  selectors
 });
 
 //OPTIONAL: if you want to access this module using render props in your components:
