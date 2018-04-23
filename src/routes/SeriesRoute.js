@@ -23,6 +23,9 @@ class SeriesRoute extends Component {
   }
 
   componentDidMount() {
+    this.props.mediaModule.setGenreFilter(null)
+    this.props.mediaModule.setDateFilter(null)
+    this.props.mediaModule.setQueryFilter('')
     this.props.mediaModule.requestSeries(this.state.filterData)
     this.props.mediaModule.fetchTvGenres();
   }

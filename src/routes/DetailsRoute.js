@@ -33,6 +33,7 @@ class DetailsRoute extends Component {
   }
   componentDidMount(){
     console.log(this.props);
+
     if(this.props.match.path === '/movie/id/:id'){
       console.log('load movie');
       this.setState({

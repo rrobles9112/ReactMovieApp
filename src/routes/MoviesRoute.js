@@ -20,7 +20,9 @@ class MoviesRoute extends PureComponent {
     }
   }
   componentDidMount() {
-
+    this.props.moviesModule.setGenreFilter(null)
+    this.props.moviesModule.setDateFilter(null)
+    this.props.moviesModule.setQueryFilter('')
     this.props.moviesModule.requestMovies(this.state.filterData);
     this.props.moviesModule.fetchMoviesGenres();
 

@@ -39,13 +39,24 @@ class Header extends Component {
               <form action="" autoComplete="on" onSubmit={(event)=>{
                 event.preventDefault()
                 console.log(this.state.query)
-                if(this.state.query !== ''){
-                  this.props.ui.setQueryFilter(this.state.query)
-                  this.props.ui.requestMovies({page:1,search:this.state.query})
-                }else{
-                  this.props.ui.setQueryFilter(this.state.query)
-                  this.props.ui.requestMovies({page:1})
+                if(this.props.location.pathname==='/'){
+                  if(this.state.query !== ''){
+                    this.props.ui.setQueryFilter(this.state.query)
+                    this.props.ui.requestMovies({page:1,search:this.state.query})
+                  }else{
+                    this.props.ui.setQueryFilter(this.state.query)
+                    this.props.ui.requestMovies({page:1})
+                  }
+                }else if (this.props.location.pathname==='/series'){
+                  if(this.state.query !== ''){
+                    this.props.ui.setQueryFilter(this.state.query)
+                    this.props.ui.requestSeries({page:1,search:this.state.query})
+                  }else{
+                    this.props.ui.setQueryFilter(this.state.query)
+                    this.props.ui.requestSeries({page:1})
+                  }
                 }
+
 
               }}>
                 <input id="search" name="search" type="text" onKeyUp={(e)=>this.setState({query:e.target.value})} placeholder="Search TV/Movies Titles"/>

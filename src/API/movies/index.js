@@ -20,7 +20,7 @@ export const getSeries = params => {
   if(params.search === undefined){
     return request(GET(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}&language=en-US&page=${params.page}`));
   }else{
-    return request(GET(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}&language=en-US&page=${params.page}`));
+    return request(GET(`https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&language=en-US&page=${params.page}&query=${params.search}`));
 
   }
 }
