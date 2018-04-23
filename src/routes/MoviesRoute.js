@@ -36,7 +36,7 @@ class MoviesRoute extends PureComponent {
           genre:value
         }
       }
-    },()=>this.props.moviesModule.requestMovies(this.state.filterData))
+    })
     this.props.moviesModule.setGenreFilter(value)
   };
 

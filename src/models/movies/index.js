@@ -16,7 +16,7 @@ import { call, put, select } from "redux-saga/effects";
 const state = {
   date:null,
   genre:null,
-  query:null,
+  query:'',
   movies: {
     results: [],
     page: 0,
@@ -102,9 +102,14 @@ const mutations = {
 export const getState = (state)=>state.user
 const sagas = createSagas({
   REQUEST_MOVIES: function*({params}) {
+
     try {
-      const response = yield call(getMovies,params);
       const a = yield select(getState);
+
+      if(a.query !== ''){
+        params.search=a.query
+      }
+      const response = yield call(getMovies,params);
       console.log('filter state',a)
       if(a.date!==null && a.genre!==null){
         let responseFiltered = response.results.filter(item => item.release_date.substr(0,4)===a.date)

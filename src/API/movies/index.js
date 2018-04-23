@@ -6,8 +6,14 @@ import {apiKey} from "../data";
 
 
 export const getMovies = params => {
+  console.log('params=',params)
+  if(params.search === undefined){
+    return request(GET(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=${params.page}`));
 
-  return request(GET(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=en-US&page=${params.page}`));
+  }else{
+    return request(GET(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&language=en-US&page=${params.page}&query=${params.search}`));
+
+  }
 }
 
 export const getSeries = params => {
