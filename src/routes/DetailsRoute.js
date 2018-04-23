@@ -59,8 +59,8 @@ class DetailsRoute extends Component {
     const {mediaModule:{detail},mediaModule:{favorites}} = this.props
     console.log(detail.videos)
     const opts = {
-      height: '390',
-      width: '640',
+      height: '390px',
+      width: '100%',
       playerVars: { // https://developers.google.com/youtube/player_parameters
         autoplay: 1
       }

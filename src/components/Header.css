@@ -45,7 +45,7 @@ input[type="text"]:focus:hover {
 }
 
 input[type="text"]:focus {
-    width: 700px;
+    width: 60vw;
     z-index: 1;
     border-bottom: 1px solid #BBB;
     cursor: text;
